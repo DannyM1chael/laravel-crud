@@ -15,6 +15,29 @@
                     @endif
                     <a class="btn btn-outline-success my-2 my-sm-0" href="/lsapp/public/posts/create">Create Post</a>
                     <h3 class="mt-3">Your Blog Posts</h3>
+                    @if (count($posts) > 0)
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Title</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @foreach ($posts as $post)
+                                <tr>
+                                    <td>{{ $post->title }}</td>
+                                    <td><a href="/lsapp/public/posts/{{ $post->id }}/edit" class="btn btn-primary" style="width:100px">Edit</a></td>
+                                    <td>
+                                        {!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right'])!!}
+                                            {{Form::hidden('_method', 'DELETE')}}
+                                            {{Form::submit('Delete', ['class' => 'btn btn-danger', 'style' => 'width:100px'])}}
+                                        {!!Form::close()!!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @else
+                        <p>There is no posts</p>
+                    @endif
                 </div>
             </div>
         </div>
